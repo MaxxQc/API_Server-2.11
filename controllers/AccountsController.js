@@ -88,7 +88,7 @@ module.exports =
                     } else
                         proceed = true;
                     let imagesRepository = new ImagesRepository(this.req, true);
-                   
+
                     if (proceed) {
                         // images are linked with user, we must flush all caches
                         imagesRepository.newETag();
