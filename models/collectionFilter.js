@@ -31,7 +31,7 @@ module.exports =
             let sortField = "";
             let ascending = true;
             if (parts.length > 0)
-                sortField = utilities.capitalizeFirstLetter(parts[0].toLowerCase());
+                sortField = utilities.capitalizeFirstLetter(parts[0]);
             if (parts.length > 1) {
                 if (parts[1].toLowerCase().includes('desc')) {
                     ascending = false;

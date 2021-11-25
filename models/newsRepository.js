@@ -10,14 +10,20 @@ module.exports =
             this.req = req;
             this.setBindExtraDataMethod(this.bindUsernameAndNewURL);
         }
+
         bindUsernameAndNewURL(userNew) {
             if (userNew) {
                 let user = this.users.get(userNew.UserId);
                 let username = "unknown";
+                let authorImage = "";
                 if (user !== null)
+                {
                     username = user.Name;
+                    authorImage = "http://" + this.req.headers["host"] + ImageFilesRepository.getImageFileURL(user["AvatarGUID"]);
+                }
                 let bindedImage = { ...userNew };
                 bindedImage["Username"] = username;
+                bindedImage["AvatarURL"] = authorImage;
                 bindedImage["Date"] = utilities.secondsToDateString(userNew["CreationDate"]);
                 if (userNew["GUID"] != "") {
                     bindedImage["OriginalURL"] = "http://" + this.req.headers["host"] + ImageFilesRepository.getImageFileURL(userNew["GUID"]);
@@ -28,6 +34,7 @@ module.exports =
                 }
                 return bindedImage;
             }
+            
             return null;
         }
         add(userNew) {

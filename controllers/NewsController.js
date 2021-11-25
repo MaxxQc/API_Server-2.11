@@ -9,6 +9,7 @@ module.exports =
         head() {
             this.response.JSON(null, this.newsRepository.ETag);
         }
+        
         get(id) {
             // if we have no parameter, expose the list of possible query strings
             if (this.params === null) {
@@ -27,6 +28,7 @@ module.exports =
                 }
             }
         }
+
         post(userNew) {
             if (this.requestActionAuthorized()) {
                 let newUserNew = this.newsRepository.add(userNew);
@@ -37,6 +39,7 @@ module.exports =
             } else
                 this.response.unAuthorized();
         }
+
         put(userNew) {
             if (this.requestActionAuthorized()) {
                 if (this.newsRepository.update(userNew))
@@ -46,6 +49,7 @@ module.exports =
             } else
                 this.response.unAuthorized();
         }
+
         remove(id) {
             if (this.requestActionAuthorized()) {
                 if (this.newsRepository.remove(id))
