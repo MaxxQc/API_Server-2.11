@@ -12,7 +12,6 @@ module.exports =
             if (value !== null) {
                 switch (type) {
                     case "string": return value != "";
-                    case "datetime": return Object.prototype.toString.call(value) === '[object Date]';
                     case "integer": return parseInt(value) != NaN;
                     case "float": return parseFloat(value) != NaN;
                     case "boolean": return value === false || value === true;

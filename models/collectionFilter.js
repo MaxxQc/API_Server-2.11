@@ -31,7 +31,7 @@ module.exports =
             let sortField = "";
             let ascending = true;
             if (parts.length > 0)
-                sortField = utilities.capitalizeFirstLetter(parts[0]);
+                sortField = utilities.capitalizeFirstLetter(parts[0].toLowerCase());
             if (parts.length > 1) {
                 if (parts[1].toLowerCase().includes('desc')) {
                     ascending = false;
@@ -65,8 +65,17 @@ module.exports =
         itemMatch(item) {
             for (let key of this.searchKeys) {
                 if (key.name in item) {
-                    if (!this.valueMatch(item[key.name], key.value))
-                        return false;
+                    if (!Array.isArray(key.value)){
+                        if (!this.valueMatch(item[key.name], key.value))
+                            return false;
+                    } else {
+                        let oneMatch = false;
+                        for(let value of key.value) {
+                            if (this.valueMatch(item[key.name],value))
+                                oneMatch = true;
+                        }
+                        return oneMatch;
+                    }
                 } else
                     return false;
             }
