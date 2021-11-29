@@ -14,9 +14,9 @@ exports.sendRequestedFile = (req, res) => {
 
     try {
         let content = fs.readFileSync(filePath);
-         res.writeHead(200, {'Content-Type': contentType});
-         res.end(content);
-         return true;
+        res.writeHead(200, {'Content-Type': contentType});
+        res.end(content);
+        return true;
     } catch(error) {
         if (error.code === 'ENOENT') {
             return false;

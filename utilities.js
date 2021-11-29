@@ -44,7 +44,7 @@ exports.decomposePath = (url) => {
 
     let queryString = getQueryString(url);
     if (queryString != undefined)
-        params= queryStringParser.parse(queryString);
+        params = queryStringParser.parse(queryString);
     let path = removeQueryString(url).toLowerCase();
 
     if (path.indexOf('/api') > -1) {

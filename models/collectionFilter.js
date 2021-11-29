@@ -21,6 +21,7 @@ module.exports =
                     }
                 }
             });
+            
             if (isNaN(this.limit) || isNaN(this.offset)) {
                 this.limit = 0;
                 this.offset = 0;

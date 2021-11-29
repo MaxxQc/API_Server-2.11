@@ -1,4 +1,5 @@
 const NewsRepository = require('../models/newsRepository');
+
 module.exports = 
 class NewsController extends require('./Controller') {
     constructor(req, res, params){
@@ -17,15 +18,19 @@ class NewsController extends require('./Controller') {
                 this.response.JSON(this.newsRepository.get(id));
             }
             else  
-                this.response.JSON( this.newsRepository.getAll(), 
+                this.response.JSON(this.newsRepository.getAll().reverse(), 
                                     this.newsRepository.ETag);
         }
         else {
             if (Object.keys(this.params).length === 0) /* ? only */{
                 this.queryStringHelp();
-            } else {
-                this.response.JSON(this.newsRepository.getAll(this.params), this.newsRepository.ETag);
-            }
+            } else
+        {
+            let userId = this.params["UserId"];
+            this.params["UserId"] = null;
+            //TODO keys séparé par espace
+            this.response.JSON(userId == null ? this.newsRepository.getAll(this.params).reverse() : this.newsRepository.getAll(this.params).filter(n => n.UserId == userId).reverse(), this.newsRepository.ETag);
+        }
         }
     }
 	

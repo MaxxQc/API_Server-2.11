@@ -30,8 +30,8 @@ class UsersRepository extends Repository {
     get(id) {
         return this.bindAvatarURL(super.get(id));
     }
-    getAll() {
-        return this.bindAvatarURLS(super.getAll());
+    getAll(params = null) {
+        return this.bindAvatarURLS(super.getAll(params));
     }
     add(user) {
         user["Created"] = utilities.nowInSeconds();

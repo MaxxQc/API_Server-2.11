@@ -26,9 +26,8 @@ module.exports =
             else {
                 let users = this.usersRepository.getAll();
                 let usersClone = users.map(user => ({ ...user }));
-                for (let user of usersClone) {
+                for (let user of usersClone)
                     user.Password = "********";
-                }
                 this.response.JSON(usersClone);
             }
         }
@@ -103,6 +102,7 @@ module.exports =
             } else
                 this.response.unAuthorized();
         }
+
         deleteAllUsersBookmarks(userId) {
             let bookmarksRepository = new Repository('Bookmarks', true);
             let bookmarks = bookmarksRepository.getAll();
@@ -116,6 +116,7 @@ module.exports =
             bookmarksRepository.removeByIndex(indexToDelete);
             Cache.clear('bookmarks');
         }
+
         deleteAllUsersImages(userId) {
             let imagesRepository = new ImagesRepository(this.req, true);
             let images = imagesRepository.getAll();
@@ -130,10 +131,25 @@ module.exports =
             Cache.clear('images');
         }
 
+        deleteAllUsersNews(userId) {
+            let newsRepository = new Repository('News', true);
+            let news = newsRepository.getAll();
+            let indexToDelete = [];
+            let index = 0;
+            for (let userNew of news) {
+                if (userNew.UserId == userId)
+                    indexToDelete.push(index);
+                index++;
+            }
+            newsRepository.removeByIndex(indexToDelete);
+            Cache.clear('news');
+        }
+
         remove(id) {
             if (this.requestActionAuthorized()) {
                 this.deleteAllUsersBookmarks(id);
                 this.deleteAllUsersImages(id);
+                this.deleteAllUsersNews(id);
                 if (this.usersRepository.remove(id))
                     this.response.accepted();
                 else
