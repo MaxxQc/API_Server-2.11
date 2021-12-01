@@ -48,7 +48,7 @@ class NewsRepository extends Repository {
     }
 	
     update(userNew) {
-        userNew["Created"] = utilities.nowInSeconds();
+        //userNew["Created"] = utilities.nowInSeconds();
         if (New.valid(userNew)) {
             let foundUserNew = super.get(userNew.Id);
             if (foundUserNew != null) {

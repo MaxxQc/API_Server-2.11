@@ -26,20 +26,19 @@ module.exports =
                     this.queryStringHelp();
                 } else {
                     let userId = this.params["UserId"];
-                    this.params["UserId"] = null;
                     let keyWords = extractKeys(this.params["keys"]);
                     this.params["keys"] = null;
 
                     if (userId == null)
                         if (keyWords == null)
-                            this.response.JSON(this.newsRepository.getAll(this.params).reverse(), this.newsRepository.ETag);
+                            this.response.JSON(this.newsRepository.getAll(this.params), this.newsRepository.ETag);
                         else
-                            this.response.JSON(this.newsRepository.getAll(this.params).filter(n => checkIfContains(n, keyWords)).reverse(), this.newsRepository.ETag);
+                            this.response.JSON(this.newsRepository.getAll(this.params).filter(n => checkIfContains(n, keyWords)), this.newsRepository.ETag);
                     else
                         if (keyWords == null)
-                            this.response.JSON(this.newsRepository.getAll(this.params).filter(n => n.UserId == userId).reverse(), this.newsRepository.ETag);
+                            this.response.JSON(this.newsRepository.getAll(this.params), this.newsRepository.ETag);
                         else
-                            this.response.JSON(this.newsRepository.getAll(this.params).filter(n => n.UserId == userId && checkIfContains(n, keyWords)).reverse(), this.newsRepository.ETag);
+                            this.response.JSON(this.newsRepository.getAll(this.params).filter(n => checkIfContains(n, keyWords)), this.newsRepository.ETag);
                 }
             }
         }
@@ -88,7 +87,7 @@ function extractKeys(keys) {
 
 function checkIfContains(userNew, keys) {
     for (let i = 0; i < keys.length; i++)
-        if (userNew.Content.includes(keys[i]) || userNew.Title.includes(keys[i])) return true;
+        if (userNew.Content.toLowerCase().includes(keys[i].toLowerCase()) || userNew.Title.toLowerCase().includes(keys[i].toLowerCase())) return true;
     return false;
 }
 

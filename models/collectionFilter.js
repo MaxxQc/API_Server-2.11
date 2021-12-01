@@ -52,10 +52,13 @@ module.exports =
                 this.sortFields.push(this.makeSortField(fieldNames));
         }
         addSearchKey(keyName, value) {
-            let name = utilities.capitalizeFirstLetter(keyName.toLowerCase());
+            let name = utilities.capitalizeFirstLetter(keyName);
             this.searchKeys.push({ name: name, value: value });
         }
         valueMatch(value, searchValue) {
+            if (!isNaN(value) && !isNaN(searchValue))
+                return value == searchValue;
+
             try {
                 return new RegExp('^' + searchValue.toLowerCase().replace(/\*/g, '.*') + '$').test(value.toLowerCase());
             } catch (error) {
@@ -63,6 +66,7 @@ module.exports =
                 return false;
             }
         }
+        
         itemMatch(item) {
             for (let key of this.searchKeys) {
                 if (key.name in item) {
@@ -82,6 +86,7 @@ module.exports =
             }
             return true;
         }
+
         findByKeys() {
             if (this.searchKeys.length > 0) {
                 this.filteredCollection = [];
