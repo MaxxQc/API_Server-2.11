@@ -28,17 +28,8 @@ module.exports =
                     let userId = this.params["UserId"];
                     let keyWords = extractKeys(this.params["keys"]);
                     this.params["keys"] = null;
-
-                    if (userId == null)
-                        if (keyWords == null)
-                            this.response.JSON(this.newsRepository.getAll(this.params), this.newsRepository.ETag);
-                        else
-                            this.response.JSON(this.newsRepository.getAll(this.params).filter(n => checkIfContains(n, keyWords)), this.newsRepository.ETag);
-                    else
-                        if (keyWords == null)
-                            this.response.JSON(this.newsRepository.getAll(this.params), this.newsRepository.ETag);
-                        else
-                            this.response.JSON(this.newsRepository.getAll(this.params).filter(n => checkIfContains(n, keyWords)), this.newsRepository.ETag);
+                    this.response.JSON(keyWords == null ? this.newsRepository.getAll(this.params) :
+                        this.newsRepository.getAll(this.params).filter(n => checkIfContains(n, keyWords)), this.newsRepository.ETag);
                 }
             }
         }
