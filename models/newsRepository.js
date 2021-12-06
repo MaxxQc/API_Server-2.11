@@ -4,14 +4,14 @@ const New = require('./new.js');
 const utilities = require("../utilities");
 module.exports = 
 class NewsRepository extends Repository {
-    constructor(req){
+    constructor(req) {
         super('News', true);
         this.users = new Repository('Users');
         this.req = req;
         this.setBindExtraDataMethod(this.bindUsernameAndImageURL);
     }
 	
-    bindUsernameAndImageURL(userNew){
+    bindUsernameAndImageURL(userNew) {
         if (userNew) {
             let user = this.users.get(userNew.UserId);
             let username = "unknown";
@@ -39,11 +39,13 @@ class NewsRepository extends Repository {
 	
     add(userNew) {
         userNew["Created"] = utilities.nowInSeconds();
+
         if (New.valid(userNew)) {
             userNew["GUID"] = ImageFilesRepository.storeImageData("", userNew["ImageData"]);
             delete userNew["ImageData"];
             return super.add(userNew);
         }
+
         return null;
     }
 	
@@ -51,21 +53,25 @@ class NewsRepository extends Repository {
         //userNew["Created"] = utilities.nowInSeconds();
         if (New.valid(userNew)) {
             let foundUserNew = super.get(userNew.Id);
+
             if (foundUserNew != null) {
                 userNew["GUID"] = ImageFilesRepository.storeImageData(userNew["GUID"], userNew["ImageData"]);
                 delete userNew["ImageData"];
                 return super.update(userNew);
             }
         }
+
         return false;
     }
 	
-    remove(id){
+    remove(id) {
         let foundUserNew = super.get(id);
+
         if (foundUserNew) {
             ImageFilesRepository.removeImageFile(foundUserNew["GUID"]);
             return super.remove(id);
         }
+
         return false;
     }
 }
