@@ -57,6 +57,11 @@ class NewsRepository extends Repository {
             if (foundUserNew != null) {
                 userNew["GUID"] = ImageFilesRepository.storeImageData(userNew["GUID"], userNew["ImageData"]);
                 delete userNew["ImageData"];
+                delete userNew["Username"];
+                delete userNew["AvatarURL"];
+                delete userNew["Date"];
+                delete userNew["OriginalURL"];
+                delete userNew["ThumbnailURL"];
                 return super.update(userNew);
             }
         }
